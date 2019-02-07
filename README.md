@@ -75,11 +75,11 @@ highlighted by adding to lists on lines 581-583 and 596-597.
 
 On command line:
 
-	Rscript HBVseq_codon_enrichment.R
+	Rscript HBVseq_sub_enrichment.R
 
 In interactive console:
 
-	source("HBVseq_codon_enrichment.R")
+	source("HBVseq_sub_enrichment.R")
 
 Test set
 ---------------------------------------------------------------------------
