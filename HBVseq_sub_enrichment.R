@@ -18,7 +18,7 @@ library(data.table)
 ################################################################################
 
 # Run date
-run.date = "2019-02-06"
+run.date = "2019-10-18"
 
 # Define the sets to be compared. Add as many sets as desired as long as the set
 # has a "name" (below). Set "a" must be used.
@@ -67,6 +67,11 @@ HITS = 20
 # with poor expected data quality). For HBV, 1:356 is the full RT sequence. Any 
 # vector of numbers in any order will work in this argument.
 output.range = 1:356
+
+# Enter an offset to compensate for flanking sequence upstream of the desired
+# start site. For RT, there are 13 codons upstream of the first amino acid of RT
+# in the amplicon, so the offset is -13.
+offset = -13
 
 # Save workspace for later data manipulation
 save.workspace = TRUE
@@ -166,7 +171,7 @@ MakeCountTable = function(codon.list){
 	
 	# Add reference amino acid sequence and position to count.table
 	count.table$reference = reference.trans
-	count.table$position  = 1:length(reference.trans) - 13
+	count.table$position  = 1:length(reference.trans) + offset
 	
 	return(count.table)				  
 }
@@ -458,10 +463,10 @@ if (output.all.data){
 		for (j in sets){
 		
 			set.data = paste(set.data, sorted.df[[paste("set.", j, ".ratio.of.freq", sep = "")]][i], "\t", 
-									   sorted.df[[paste("set.", j, ".sum.of.substitution.counts", sep = "")]][i], "\t", 
-									   sorted.df[[paste("set.", j, ".treated.substitution.counts", sep = "")]][i], "\t",
+									   sorted.df[[paste("set.", j, ".sum.of.counts", sep = "")]][i], "\t", 
+									   sorted.df[[paste("set.", j, ".treated.mutant.counts", sep = "")]][i], "\t",
 									   sorted.df[[paste("set.", j, ".treated.total.counts", sep = "")]][i], "\t",
-									   sorted.df[[paste("set.", j, ".untreated.substitution.counts", sep = "")]][i], "\t",
+									   sorted.df[[paste("set.", j, ".untreated.mutant.counts", sep = "")]][i], "\t",
 									   sorted.df[[paste("set.", j, ".untreated.total.counts", sep = "")]][i], "\t",
 									   sep = "")
 		}
@@ -492,10 +497,10 @@ if (output.top.hits){
 		for (j in sets){
 		
 			set.data = paste(set.data, sorted.df[[paste("set.", j, ".ratio.of.freq", sep = "")]][i], "\t", 
-									   sorted.df[[paste("set.", j, ".sum.of.substitution.counts", sep = "")]][i], "\t", 
-									   sorted.df[[paste("set.", j, ".treated.substitution.counts", sep = "")]][i], "\t",
+									   sorted.df[[paste("set.", j, ".sum.of.counts", sep = "")]][i], "\t", 
+									   sorted.df[[paste("set.", j, ".treated.mutant.counts", sep = "")]][i], "\t",
 									   sorted.df[[paste("set.", j, ".treated.total.counts", sep = "")]][i], "\t",
-									   sorted.df[[paste("set.", j, ".untreated.substitution.counts", sep = "")]][i], "\t",
+									   sorted.df[[paste("set.", j, ".untreated.mutant.counts", sep = "")]][i], "\t",
 									   sorted.df[[paste("set.", j, ".untreated.total.counts", sep = "")]][i], "\t",
 									   sep = "")
 		}
